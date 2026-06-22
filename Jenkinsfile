@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Configuramos las variables para que dotnet se encuentre en el PATH
+        DOTNET_ROOT = "${env.WORKSPACE}/.dotnet"
+        PATH = "${env.WORKSPACE}/.dotnet:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,12 +14,20 @@ pipeline {
             }
         }
         
+        stage('Instalar .NET SDK') {
+            steps {
+                sh '''
+                    echo "Descargando e instalando .NET SDK 8.0 localmente en Jenkins..."
+                    wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+                    chmod +x ./dotnet-install.sh
+                    ./dotnet-install.sh --channel 8.0 --install-dir ./.dotnet
+                    dotnet --info
+                '''
+            }
+        }
+
         stage('Restaurar Paquetes y Compilar Pruebas') {
             steps {
-                // Asumiendo que el agente de Jenkins tiene dotnet instalado.
-                // Si este Jenkins corre en un contenedor Linux estándar sin .NET, 
-                // necesitará un agente (node) de Windows o un contenedor con .NET SDK.
-                // El comando intentará restaurar y compilar.
                 sh 'dotnet build Capa_Pruebas/Capa_Pruebas.csproj'
             }
         }
