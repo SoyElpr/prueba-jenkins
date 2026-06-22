@@ -18,7 +18,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Descargando e instalando .NET SDK 8.0 localmente en Jenkins..."
-                    wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+                    curl -sSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
                     chmod +x ./dotnet-install.sh
                     ./dotnet-install.sh --channel 8.0 --install-dir ./.dotnet
                     dotnet --info
