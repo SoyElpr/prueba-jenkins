@@ -5,6 +5,7 @@ pipeline {
         // Configuramos las variables para que dotnet se encuentre en el PATH
         DOTNET_ROOT = "${env.WORKSPACE}/.dotnet"
         PATH = "${env.WORKSPACE}/.dotnet:${env.PATH}"
+        DOTNET_SYSTEM_GLOBALIZATION_INVARIANT = "1"
     }
 
     stages {
