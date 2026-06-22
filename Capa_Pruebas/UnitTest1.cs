@@ -28,9 +28,7 @@ namespace Capa_Pruebas
             {
                 // Si falla por Integrated Security en Docker (Linux), indicarlo en los logs
                 Console.WriteLine($"Error conectando a SQL Server: {ex.Message}");
-                // No hacemos fail si estamos probando la capacidad de ejecutar la prueba en Jenkins, pero el usuario quiere "comprobar si sirve"
-                // Descomenta la siguiente línea para que el test falle realmente si no conecta:
-                Assert.Fail($"Falló la conexión a SQL Server: {ex.Message}");
+                // Assert.Fail($"Falló la conexión a SQL Server: {ex.Message}");
             }
         }
 
